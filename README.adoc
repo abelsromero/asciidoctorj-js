@@ -1,0 +1,12 @@
+= Running JS with GraalVM
+
+== Setup
+
+Install JS libraries
+
+ $ ./gradlew npmInstall
+
+== Testing demo
+
+Run `Runner` Java class.
+

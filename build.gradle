@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+    id "com.github.node-gradle.node" version "3.0.1"
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = "5.7.1"
+}
+
+dependencies {
+    implementation "org.asciidoctor:asciidoctorj-api:2.5.0"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+}
+
+node {
+    download = true
+    version = "14.16.1"
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'graal.js.runner.App'
+}
