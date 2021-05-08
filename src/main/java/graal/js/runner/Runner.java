@@ -1,6 +1,8 @@
 package graal.js.runner;
 
 import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.PolyglotAccess;
+import org.graalvm.polyglot.Value;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -22,8 +24,11 @@ public class Runner {
 //            context.eval("js", "var IncludeResolver = Polyglot.import('IncludeResolver');");
 
             ClassLoader classLoader = Runner.class.getClassLoader();
+//            context.eval("js", "require('fs').writeFileSync('foo.txt', 'bar', 'utf8')");
             context.eval("js", "load('" + "node_modules/@asciidoctor/core/dist/graalvm/asciidoctor.js" + "')");
-            context.eval("js", "load('" + classLoader.getResource("app.js").getFile() + "')");
+            Value result = context.eval("js", "load('" + classLoader.getResource("app.js").getFile() + "')");
+
+            System.out.println(result);
         }
     }
 
@@ -31,6 +36,7 @@ public class Runner {
         return Context.newBuilder("js")
                 .allowAllAccess(true)
                 .allowIO(true)
+                .allowPolyglotAccess(PolyglotAccess.ALL)
                 .build();
     }
 
