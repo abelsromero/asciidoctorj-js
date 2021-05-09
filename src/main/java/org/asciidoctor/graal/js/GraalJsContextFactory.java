@@ -1,7 +1,6 @@
 package org.asciidoctor.graal.js;
 
-import org.asciidoctor.graal.js.internal.IOHelper;
-import org.asciidoctor.graal.js.internal.IncludeResolver;
+import org.asciidoctor.graal.js.internal.FileAdapter;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.PolyglotAccess;
 import org.graalvm.polyglot.Value;
@@ -17,9 +16,9 @@ public class GraalJsContextFactory {
         Context context = createContext();
 
         Value bindings = context.getBindings(LANGUAGE);
-        bindings.putMember("IncludeResolver", new IncludeResolver());
-        // NOTE: we could create a IOHelper with the reference of the input file
-        bindings.putMember("IOHelper", new IOHelper());
+        bindings.putMember("IncludeResolver", new FileAdapter());
+        // NOTE: we could create a IOHelper with the reference of the input file to reduce path searchews
+        bindings.putMember("IOHelper", new FileAdapter());
 
         context.eval(LANGUAGE, "load('" + fromClasspath("graalvm/asciidoctor.js") + "')");
 

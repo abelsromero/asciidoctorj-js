@@ -3,7 +3,6 @@ package graal.js.runner;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.Attributes;
 import org.asciidoctor.Options;
-import org.asciidoctor.Placement;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,16 +19,16 @@ public class AsciidoctorGraalJsTest {
             = Simple
 
             A preamble
-            
+                        
             == First Section
-            
+                        
             Some text.
-            
+                        
             == Second Section
-            
+                        
             Some more text.
             """;
-    
+
     @Test
     void should_create_instance() {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
