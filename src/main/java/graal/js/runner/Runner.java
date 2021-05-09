@@ -18,15 +18,8 @@ public class Runner {
         try (Context context = createContext()) {
             context.getBindings("js")
                     .putMember("IncludeResolver", new IncludeResolver());
-// ERROR: Exception in thread "main" ReferenceError: Polyglot is not defined
-//            context.getPolyglotBindings()
-//                    .putMember("IncludeResolver", new IncludeResolver());
-//            context.eval("js", "var IncludeResolver = Polyglot.import('IncludeResolver');");
-
-            ClassLoader classLoader = Runner.class.getClassLoader();
-//            context.eval("js", "require('fs').writeFileSync('foo.txt', 'bar', 'utf8')");
-            context.eval("js", "load('" + "node_modules/@asciidoctor/core/dist/graalvm/asciidoctor.js" + "')");
-            Value result = context.eval("js", "load('" + classLoader.getResource("app.js").getFile() + "')");
+            
+            Value result = context.eval("js", "load('" + fromClasspath("app.js") + "')");
 
             System.out.println(result);
         }
@@ -38,6 +31,10 @@ public class Runner {
                 .allowIO(true)
                 .allowPolyglotAccess(PolyglotAccess.ALL)
                 .build();
+    }
+
+    private static String fromClasspath(String file) {
+        return Runner.class.getClassLoader().getResource(file).getFile();
     }
 
     public static class IncludeResolver {
@@ -61,6 +58,26 @@ public class Runner {
         public String pwd() {
             return Paths.get("").toAbsolutePath().toString();
         }
+    }
+
+    public static class IOHelper {
+
+        public String load(String path) throws IOException, URISyntaxException {
+            Path filePath = Paths.get(path);
+
+            if (filePath.toFile().exists()) {
+                return Files.readString(filePath, StandardCharsets.UTF_8);
+            } else {
+                Path fileName = filePath.getFileName();
+                URL url = this.getClass().getClassLoader().getResource(fileName.toString());
+                if (url != null) {
+                    return Files.readString(Paths.get(url.toURI()), StandardCharsets.UTF_8);
+                } else {
+                    return "";
+                }
+            }
+        }
+
     }
 
 }

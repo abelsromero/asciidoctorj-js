@@ -1,4 +1,6 @@
-var asciidoctor = Asciidoctor()
+load('graalvm/asciidoctor.js')
+
+var asciidoctor = Asciidoctor();
 
 var file = 'src/main/resources/example-manual.adoc';
 
@@ -14,4 +16,4 @@ var options = {
     mkdirs: true
 }
 
-asciidoctor.convert(file, options);
+asciidoctor.convertFile(file, options);
