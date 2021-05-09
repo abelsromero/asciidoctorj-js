@@ -161,6 +161,32 @@ public class AsciidoctorGraalJsTest {
                 .contains("<body class=\"article toc2 toc-right\">");
     }
 
+    @Test
+    void should_convert_to_non_existing_dir_from_file_and_pass_attributes() throws IOException {
+        File source = new File(Utils.fromClasspath("sections.adoc"));
+
+        Asciidoctor asciidoctor = Asciidoctor.Factory.create();
+
+        File outputDir = new File("build", UUID.randomUUID().toString());
+        Options options = Options.builder()
+                .headerFooter(true)
+                .mkDirs(true)
+                .toDir(outputDir)
+                .attributes(Attributes.builder()
+                        .attribute("toc", "right")
+                        .build())
+                .build();
+
+        asciidoctor.convertFile(source, options);
+
+        File actual = new File(outputDir, "sections.html");
+        String output = Files.readString(Path.of(actual.getPath()));
+        assertThat(output)
+                .startsWith("<!DOCTYPE html>")
+                .contains("<h2 id=\"_first_section\">First Section</h2>")
+                .contains("<h2 id=\"_second_section\">Second Section</h2>")
+                .contains("<body class=\"article toc2 toc-right\">");
+    }
 
     // TODO
     // * Test Safe mode conversion to JS

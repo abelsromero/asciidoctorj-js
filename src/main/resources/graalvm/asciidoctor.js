@@ -21989,7 +21989,7 @@ Opal.modules["asciidoctor/helpers"] = function(Opal) {
       Opal.def(self, '$mkdir_p', $Helpers_mkdir_p$24 = function $$mkdir_p(dir) {
         var self = this, parent_dir = nil;
 
-        if ($truthy($$$('::', 'File')['$directory?'](dir))) {
+        if ($truthy(IOHelper.isDirectory(dir))) {
           return nil
         } else {
             console.log(dir)
@@ -21999,11 +21999,11 @@ Opal.modules["asciidoctor/helpers"] = function(Opal) {
           };
           
           try {
-            return $$$('::', 'Dir').$mkdir(dir)
+            return IOHelper.mkdir(dir)
           } catch ($err) {
             if (Opal.rescue($err, [$$$('::', 'SystemCallError')])) {
               try {
-                if ($truthy($$$('::', 'File')['$directory?'](dir))) {
+                if ($truthy(IOHelper.isDirectory(dir))) {
                   return nil
                 } else {
                   return self.$raise()
