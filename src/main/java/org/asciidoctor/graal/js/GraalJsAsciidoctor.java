@@ -11,9 +11,6 @@ import org.asciidoctor.extension.JavaExtensionRegistry;
 import org.asciidoctor.extension.RubyExtensionRegistry;
 import org.asciidoctor.log.LogHandler;
 import org.asciidoctor.syntaxhighlighter.SyntaxHighlighterRegistry;
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.PolyglotAccess;
-import org.graalvm.polyglot.Value;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,11 +19,20 @@ import java.io.Writer;
 import java.util.Collection;
 import java.util.Map;
 
-import static org.asciidoctor.graal.js.internal.Utils.fromClasspath;
-
 public class GraalJsAsciidoctor implements Asciidoctor {
 
     private final GraalContext context;
+
+
+    private final String ASCIIDOCTORJS_INITIALIZATION = """                         
+            var asciidoctor = Asciidoctor();
+                            
+            let jsOptions = Object.fromEntries(javaOptions.map());
+            if ('attributes' in jsOptions) {
+              jsOptions.attributes = Object.fromEntries(jsOptions.attributes)
+            }
+
+            """;
 
     public GraalJsAsciidoctor() {
         GraalJsContextFactory asciidoctorJsLoader = new GraalJsContextFactory();
@@ -49,18 +55,8 @@ public class GraalJsAsciidoctor implements Asciidoctor {
         context.bind("content", content);
         context.bind(options);
 
-        String source = """                         
-                var asciidoctor = Asciidoctor();
-                                
-                let jsOptions = Object.fromEntries(javaOptions.map());
-                if ('attributes' in jsOptions) {
-                  jsOptions.attributes = Object.fromEntries(jsOptions.attributes)
-                }
-                console.log(jsOptions);
-                asciidoctor.convert(content, jsOptions);
-                """;
-
-        return context.eval(source).toString();
+        String methodCall = "asciidoctor.convert(content, jsOptions)";
+        return context.eval(ASCIIDOCTORJS_INITIALIZATION + methodCall).toString();
     }
 
     @Override
@@ -105,7 +101,12 @@ public class GraalJsAsciidoctor implements Asciidoctor {
 
     @Override
     public String convertFile(File file, Options options) {
-        return null;
+
+        context.bind("sourceFile", file.getAbsolutePath());
+        context.bind(options);
+
+        String methodCall = "asciidoctor.convertFile(sourceFile, jsOptions);";
+        return String.valueOf(context.eval(ASCIIDOCTORJS_INITIALIZATION + methodCall));
     }
 
     @Override

@@ -21992,7 +21992,7 @@ Opal.modules["asciidoctor/helpers"] = function(Opal) {
         if ($truthy($$$('::', 'File')['$directory?'](dir))) {
           return nil
         } else {
-          
+
           if ((parent_dir = $$$('::', 'File').$dirname(dir))['$=='](".")) {
           } else {
             self.$mkdir_p(parent_dir)

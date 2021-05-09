@@ -1,0 +1,11 @@
+= Simple
+
+A preamble
+
+== First Section
+
+Some text.
+
+== Second Section
+
+Some more text.

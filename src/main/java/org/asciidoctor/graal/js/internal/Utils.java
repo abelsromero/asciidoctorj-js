@@ -1,6 +1,5 @@
 package org.asciidoctor.graal.js.internal;
 
-import graal.js.runner.Runner;
 import org.asciidoctor.graal.js.GraalJsAsciidoctor;
 
 public class Utils {
