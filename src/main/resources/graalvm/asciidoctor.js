@@ -20106,7 +20106,7 @@ Opal.modules["asciidoctor/js/opal_ext/graalvm/file"] = function(Opal) {
     return (Opal.defs(self, '$read', $File_read$1 = function $$read(path) {
       var self = this;
 
-      return IncludeResolver.read(path);
+      return FileAdapter.read(path);
     }, $File_read$1.$$arity = 1), nil) && 'read'
   })($nesting[0], null, $nesting)
 };
@@ -20128,7 +20128,7 @@ Opal.modules["asciidoctor/js/opal_ext/graalvm/dir"] = function(Opal) {
       Opal.def(self, '$pwd', $pwd$1 = function $$pwd() {
         var self = this;
 
-        return IncludeResolver.pwd();
+        return FileAdapter.pwd();
       }, $pwd$1.$$arity = 0);
       return Opal.alias(self, "getwd", "pwd");
     })(Opal.get_singleton_class(self), $nesting)
@@ -21989,7 +21989,7 @@ Opal.modules["asciidoctor/helpers"] = function(Opal) {
       Opal.def(self, '$mkdir_p', $Helpers_mkdir_p$24 = function $$mkdir_p(dir) {
         var self = this, parent_dir = nil;
 
-        if ($truthy(IOHelper.isDirectory(dir))) {
+        if ($truthy(FileAdapter.isDirectory(dir))) {
           return nil
         } else {
             console.log(dir)
@@ -21999,11 +21999,11 @@ Opal.modules["asciidoctor/helpers"] = function(Opal) {
           };
           
           try {
-            return IOHelper.mkdir(dir)
+            return FileAdapter.mkdir(dir)
           } catch ($err) {
             if (Opal.rescue($err, [$$$('::', 'SystemCallError')])) {
               try {
-                if ($truthy(IOHelper.isDirectory(dir))) {
+                if ($truthy(FileAdapter.isDirectory(dir))) {
                   return nil
                 } else {
                   return self.$raise()
@@ -28139,7 +28139,7 @@ Opal.modules["asciidoctor/document"] = function(Opal) {
               target.$write($$($nesting, 'LF'));
             }
           } else {
-              IOHelper.write(target, output);
+              FileAdapter.write(target, output);
               // $$$('::', 'File').$write(target, output, $hash2(["mode"], {"mode": $$($nesting, 'FILE_WRITE_MODE')}))
           };
           if ($truthy(($truthy($a = (($b = self.backend['$==']("manpage")) ? $$$('::', 'String')['$==='](target) : self.backend['$==']("manpage"))) ? self.converter.$class()['$respond_to?']("write_alternate_pages") : $a))) {
@@ -35864,7 +35864,7 @@ Opal.modules["asciidoctor/load"] = function(Opal) {
             $writer = ["input_mtime", (function() {if ($$($nesting, 'RUBY_ENGINE')['$==']("jruby")) {
               return $$$('::', 'Time').$at(input.$mtime().$to_i());
             } else {
-              return IOHelper.mtime(input.path)
+              return FileAdapter.mtime(input.path)
             }; return nil; })()];
             $send(options, '[]=', Opal.to_a($writer));
             $writer[$rb_minus($writer["length"], 1)];;
@@ -36091,7 +36091,7 @@ Opal.modules["asciidoctor/convert"] = function(Opal) {
             self.$raise($$$('::', 'IOError'), "" + "input file and output file cannot be the same: " + (outfile))};
           if ($truthy(mkdirs)) {
             $$($nesting, 'Helpers').$mkdir_p(outdir)
-          } else if ($truthy(IOHelper.isDirectory(outdir))) {
+          } else if ($truthy(FileAdapter.isDirectory(outdir))) {
           } else {
             self.$raise($$$('::', 'IOError'), "" + "target directory does not exist: " + (to_dir) + " (hint: set :mkdirs option)")
           };

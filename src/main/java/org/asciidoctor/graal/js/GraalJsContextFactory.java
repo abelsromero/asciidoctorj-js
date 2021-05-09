@@ -16,9 +16,7 @@ public class GraalJsContextFactory {
         Context context = createContext();
 
         Value bindings = context.getBindings(LANGUAGE);
-        bindings.putMember("IncludeResolver", new FileAdapter());
-        // NOTE: we could create a IOHelper with the reference of the input file to reduce path searchews
-        bindings.putMember("IOHelper", new FileAdapter());
+        bindings.putMember("FileAdapter", new FileAdapter());
 
         context.eval(LANGUAGE, "load('" + fromClasspath("graalvm/asciidoctor.js") + "')");
 
@@ -32,5 +30,4 @@ public class GraalJsContextFactory {
                 .allowPolyglotAccess(PolyglotAccess.ALL)
                 .build();
     }
-
 }
