@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'maven-publish'
     id "com.github.node-gradle.node" version "3.0.1"
 }
 
@@ -30,3 +31,16 @@ node {
 test {
     useJUnitPlatform()
 }
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.asciidoctor'
+            artifactId = 'asciidoctor-graal-js'
+            version = '0.0.1'
+
+            from components.java
+        }
+    }
+}
+

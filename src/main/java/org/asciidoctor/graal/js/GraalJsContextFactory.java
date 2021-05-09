@@ -5,7 +5,11 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.PolyglotAccess;
 import org.graalvm.polyglot.Value;
 
-import static org.asciidoctor.graal.js.internal.Utils.fromClasspath;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 public class GraalJsContextFactory {
 
@@ -18,7 +22,11 @@ public class GraalJsContextFactory {
         Value bindings = context.getBindings(LANGUAGE);
         bindings.putMember("FileAdapter", new FileAdapter());
 
-        context.eval(LANGUAGE, "load('" + fromClasspath("graalvm/asciidoctor.js") + "')");
+        InputStream is = GraalContext.class.getClassLoader().getResourceAsStream("graalvm/asciidoctor.js");
+        String script = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))
+                .lines()
+                .collect(Collectors.joining("\n"));
+        context.eval(LANGUAGE, script);
 
         return new GraalContext(context);
     }
