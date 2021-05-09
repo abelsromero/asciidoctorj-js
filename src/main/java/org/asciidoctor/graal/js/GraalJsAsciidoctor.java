@@ -105,7 +105,9 @@ public class GraalJsAsciidoctor implements Asciidoctor {
         context.bind("sourceFile", file.getAbsolutePath());
         context.bind(options);
 
-        String methodCall = "asciidoctor.convertFile(sourceFile, jsOptions);";
+        String methodCall = """
+                asciidoctor.convertFile(sourceFile, jsOptions);
+                """;
         return String.valueOf(context.eval(ASCIIDOCTORJS_INITIALIZATION + methodCall));
     }
 

@@ -1,5 +1,6 @@
 package org.asciidoctor.graal.js.internal;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -43,5 +44,9 @@ public class FileAdapter {
     public void write(String target, String output) throws IOException {
         // Force UTF-8 to comply with Asciidoctor Ruby with uses mode: FILE_WRITE_MODE
         Files.writeString(Path.of(target), output, StandardCharsets.UTF_8);
+    }
+    
+    public boolean isDirectory (String value) {
+        return new File(value).isDirectory();
     }
 }

@@ -21992,7 +21992,7 @@ Opal.modules["asciidoctor/helpers"] = function(Opal) {
         if ($truthy($$$('::', 'File')['$directory?'](dir))) {
           return nil
         } else {
-
+            console.log(dir)
           if ((parent_dir = $$$('::', 'File').$dirname(dir))['$=='](".")) {
           } else {
             self.$mkdir_p(parent_dir)
@@ -36091,7 +36091,7 @@ Opal.modules["asciidoctor/convert"] = function(Opal) {
             self.$raise($$$('::', 'IOError'), "" + "input file and output file cannot be the same: " + (outfile))};
           if ($truthy(mkdirs)) {
             $$($nesting, 'Helpers').$mkdir_p(outdir)
-          } else if ($truthy($$$('::', 'File')['$directory?'](outdir))) {
+          } else if ($truthy(IOHelper.isDirectory(outdir))) {
           } else {
             self.$raise($$$('::', 'IOError'), "" + "target directory does not exist: " + (to_dir) + " (hint: set :mkdirs option)")
           };
