@@ -12,11 +12,14 @@ ext {
     junitVersion = "5.7.1"
 }
 
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_16
+
 dependencies {
     implementation "org.asciidoctor:asciidoctorj-api:2.5.0"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation 'org.assertj:assertj-core:3.19.0'
 }
 
 node {
@@ -24,7 +27,6 @@ node {
     version = "14.16.1"
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = 'graal.js.runner.App'
+test {
+    useJUnitPlatform()
 }

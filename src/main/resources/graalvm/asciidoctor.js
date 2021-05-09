@@ -1,3 +1,4 @@
+
 (function(undefined) {
   // @note
   //   A few conventions for the documentation of this file:
@@ -28138,10 +28139,8 @@ Opal.modules["asciidoctor/document"] = function(Opal) {
               target.$write($$($nesting, 'LF'));
             }
           } else {
-              console.log (target);
-              console.log (output);
               IOHelper.write(target, output);
-            // $$$('::', 'File').$write(target, output, $hash2(["mode"], {"mode": $$($nesting, 'FILE_WRITE_MODE')}))
+              // $$$('::', 'File').$write(target, output, $hash2(["mode"], {"mode": $$($nesting, 'FILE_WRITE_MODE')}))
           };
           if ($truthy(($truthy($a = (($b = self.backend['$==']("manpage")) ? $$$('::', 'String')['$==='](target) : self.backend['$==']("manpage"))) ? self.converter.$class()['$respond_to?']("write_alternate_pages") : $a))) {
             self.converter.$class().$write_alternate_pages(self.attributes['$[]']("mannames"), self.attributes['$[]']("manvolnum"), target)};
@@ -35863,10 +35862,8 @@ Opal.modules["asciidoctor/load"] = function(Opal) {
             
             
             $writer = ["input_mtime", (function() {if ($$($nesting, 'RUBY_ENGINE')['$==']("jruby")) {
-              console.log("11")
               return $$$('::', 'Time').$at(input.$mtime().$to_i());
             } else {
-                console.log(`22: ${$$($nesting, 'RUBY_ENGINE')}`)
               return IOHelper.mtime(input.path)
             }; return nil; })()];
             $send(options, '[]=', Opal.to_a($writer));
