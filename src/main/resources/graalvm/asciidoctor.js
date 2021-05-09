@@ -35860,10 +35860,11 @@ Opal.modules["asciidoctor/load"] = function(Opal) {
             
             
             $writer = ["input_mtime", (function() {if ($$($nesting, 'RUBY_ENGINE')['$==']("jruby")) {
-              
+              console.log("11")
               return $$$('::', 'Time').$at(input.$mtime().$to_i());
             } else {
-              return input.$mtime()
+                console.log(`22: ${$$($nesting, 'RUBY_ENGINE')}`)
+              return IOHelper.mtime(input.path)
             }; return nil; })()];
             $send(options, '[]=', Opal.to_a($writer));
             $writer[$rb_minus($writer["length"], 1)];;
