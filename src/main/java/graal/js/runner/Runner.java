@@ -109,7 +109,7 @@ public class Runner {
             public int getMinutes() {
                 return zonedDateTime.getMinute();
             }
-            
+
             // Returns the seconds (from 0-59)
             public int getSeconds() {
                 return zonedDateTime.getSecond();
@@ -120,6 +120,10 @@ public class Runner {
             BasicFileAttributes basicFileAttributes = Files.readAttributes(Path.of(filePath), BasicFileAttributes.class);
             return new JsDate(basicFileAttributes.lastModifiedTime(), TimeZone.getDefault());
         }
-    }
 
+        public void write(String target, String output) throws IOException {
+            // Force UTF-8 to comply with Asciidoctor Ruby with uses mode: FILE_WRITE_MODE
+            Files.writeString(Path.of(target), output,StandardCharsets.UTF_8);
+        }
+    }
 }

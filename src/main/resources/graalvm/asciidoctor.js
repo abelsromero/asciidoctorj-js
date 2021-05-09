@@ -28138,7 +28138,10 @@ Opal.modules["asciidoctor/document"] = function(Opal) {
               target.$write($$($nesting, 'LF'));
             }
           } else {
-            $$$('::', 'File').$write(target, output, $hash2(["mode"], {"mode": $$($nesting, 'FILE_WRITE_MODE')}))
+              console.log (target);
+              console.log (output);
+              IOHelper.write(target, output);
+            // $$$('::', 'File').$write(target, output, $hash2(["mode"], {"mode": $$($nesting, 'FILE_WRITE_MODE')}))
           };
           if ($truthy(($truthy($a = (($b = self.backend['$==']("manpage")) ? $$$('::', 'String')['$==='](target) : self.backend['$==']("manpage"))) ? self.converter.$class()['$respond_to?']("write_alternate_pages") : $a))) {
             self.converter.$class().$write_alternate_pages(self.attributes['$[]']("mannames"), self.attributes['$[]']("manvolnum"), target)};
