@@ -12,10 +12,14 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.TimeZone;
 
 /**
- * Implements File related methods not supported in GraalVM runtime.
+ * Implements File & Dir related methods not supported in GraalVM runtime.
  */
 public class FileAdapter {
 
+    /**
+     * ::File
+     */
+    
     public String read(String path) throws IOException, URISyntaxException {
         Path filePath = Paths.get(path);
 
@@ -32,26 +36,30 @@ public class FileAdapter {
         }
     }
 
-    public String pwd() {
-        return Paths.get("").toAbsolutePath().toString();
+    public void write(String path, String data) throws IOException {
+        // Force UTF-8 to comply with Asciidoctor Ruby with uses mode: FILE_WRITE_MODE
+        Files.writeString(Path.of(path), data, StandardCharsets.UTF_8);
     }
 
-    public Object mtime(String filePath) throws IOException {
-        BasicFileAttributes basicFileAttributes = Files.readAttributes(Path.of(filePath), BasicFileAttributes.class);
+    public Object mtime(String path) throws IOException {
+        BasicFileAttributes basicFileAttributes = Files.readAttributes(Path.of(path), BasicFileAttributes.class);
         return new DateAdapter(basicFileAttributes.lastModifiedTime(), TimeZone.getDefault());
     }
-
-    public void write(String target, String output) throws IOException {
-        // Force UTF-8 to comply with Asciidoctor Ruby with uses mode: FILE_WRITE_MODE
-        Files.writeString(Path.of(target), output, StandardCharsets.UTF_8);
-    }
-
+    
     public boolean isDirectory(String path) {
         return new File(path).isDirectory();
     }
 
+    /**
+     * ::Dir
+     */
+    
     public int mkdir(String path) {
         new File(path).mkdir();
         return 0;
+    }
+
+    public String pwd() {
+        return Paths.get("").toAbsolutePath().toString();
     }
 }
