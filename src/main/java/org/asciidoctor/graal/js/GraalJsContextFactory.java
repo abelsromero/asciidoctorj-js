@@ -22,7 +22,7 @@ public class GraalJsContextFactory {
         Value bindings = context.getBindings(LANGUAGE);
         bindings.putMember("FileAdapter", new FileAdapter());
 
-        InputStream is = GraalContext.class.getClassLoader().getResourceAsStream("graalvm/asciidoctor.js");
+        InputStream is = GraalContext.class.getClassLoader().getResourceAsStream("graalvm/asciidoctor_module.mjs");
         String script = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))
                 .lines()
                 .collect(Collectors.joining("\n"));

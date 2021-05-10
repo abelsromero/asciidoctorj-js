@@ -44,3 +44,8 @@ publishing {
     }
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'graal.js.runner.Runner'
+    }
+}
