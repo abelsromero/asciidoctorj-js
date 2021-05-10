@@ -1,12 +1,47 @@
-= Running JS with GraalVM
+= AsciidoctorJ-JS: Running Asciidoctor.js through AsciidoctorJ
+:idprefix:
+:idseparator: -
+ifndef::env-github[:icons: font]
+ifdef::env-github[]
+:status:
+:outfilesuffix: .adoc
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+:graal-embedded-url: https://www.graalvm.org/reference-manual/embed-languages
+:asciidoctor-url: https://github.com/asciidoctor/asciidoctor
+:asciidoctorjs-url: https://github.com/asciidoctor/asciidoctor.js
+:asciidoctorj-url: https://github.com/asciidoctor/asciidoctorj
 
-== Setup
+AsciidoctorJ-JS uses the capabilities of {graal-embedded-url}[GraalVM to run other languages] to use {asciidoctorjs-url}[Asciidoctor.js] as {asciidoctorj-url}[Asciidoctorj] implementation.
 
-Install JS libraries
+== Architecture
+
+AsciidoctorJ is the default JVM implementation using JRuby to run the original {asciidoctorj-url}[Asciidoctor] Ruby gem.
+
+Similarly to it, AsciidoctorJ-JS embeds the required JS contents and GraalVM runtime configurations to provide the same features but using the JS implementation under the hood.
+
+== Hacking
+
+== Requirements
+
+* GraalVM installation.
+See https://sdkman.io/ for installation instruction on *nix systems.
+
+NOTE: Developed on 21.1.0.r16.
+
+=== Project setup
+
+. Install JS libraries
 
  $ ./gradlew npmInstall
 
-== Testing demo
+. Copy _node_modules/@asciidoctor/core/dist/graalvm/asciidoctor.js_ into _src/main/resources/graalvm_.
 
-Run `Runner` Java class.
+. Run tests from IDE of terminal with
+
+ $ ./gradlew test
 
